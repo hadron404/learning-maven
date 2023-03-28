@@ -1,0 +1,26 @@
+
+== 一个简单的 POM.xml 示例
+
+[source,xml]
+----
+
+include::{docdir}/pom.xml[lines=1..]
+
+----
+
+<1> `xml` 指定该 xml 文档的版本和编码方式。
+<2> `project` 是所有 pom.xml 的根元素，声明了一些 POM 相关的命名空间及 xsd 元素，帮助开发者使用 IDE 快速编辑 POM 。
+<3> `modelVersion` 当前 POM 模型的版本，对于 Maven2 和 Maven3 只能是 4.0.0 。
+<4> `groupId` 定义项目属于哪个组，组一般和项目所在的组织和公司存在关联。
+<5> `artifactId` 定义了当前 Maven 项目在组中唯一的 ID 。
+<6> `version` 定义了 Maven 项目的版本号，`0.0.1` 是基于语义化版本机制定义， `SNAPSHOT` 意为快照，说明项目处于开发中，是不稳定的版本。
+<7> `name` 声明一个对于用户更为友好的项目名称，是非必须的。
+
+
+groupId,artifactId,version 定义了一个项目的基本目标，任何的jar、pom或者war基于这些基本的坐标进行区分。
+
+
+== 引用
+* https://maven.apache.org/guides/index.html[Apache Maven Documentation]
+* https://www.dba.cn/book/maven/MAVENZhongWenShouCe/APACHEMAVENPOM.html[Maven 中文手册 - POM]
+* https://semver.org/lang/zh-CN/[语义化版本机制]
