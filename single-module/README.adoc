@@ -29,8 +29,21 @@ include::{docdir}/pom.xml[lines=1..]
 
 <1> `packaging` 打包方式，默认是 *jar*，可选 *war*、*zip*、*pom*
 <2> `properties` 属性，是值占位符，可通过使用符号（_${}_）在 POM 中的任意位置使用{fn-maven-pom-properties}
+<3> 通常会跟 IDE 的 `Language Level` 有关，默认是 Java 5
 
 
+== Function of this module
+
+provider a common functional interface
+
+[source,java]
+----
+
+include::{docdir}/src/main/java/org/example/Printable.java[lines=1..]
+
+----
+
+<1> declare a interface is functional interface
 
 == Reference
 

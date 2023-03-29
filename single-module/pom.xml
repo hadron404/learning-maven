@@ -12,8 +12,8 @@
 	<packaging>jar</packaging> <!--1-->
 
 	<properties><!--2-->
-		<maven.complier.release>17</maven.complier.release>
-		<maven.complier.source>17</maven.complier.source>
+		<maven.compiler.source>1.8</maven.compiler.source><!--3-->
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<!-- Following project.-properties are reserved for Maven in will become elements in a future POM definition. -->
 		<!-- Don't start your own properties with project. -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
