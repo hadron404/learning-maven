@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <mirrors>
+        <!--内部maven-->
+          <!-- <mirror>
+            <id>nexus-milestones</id>
+            <mirrorOf>central</mirrorOf>
+            <name>Spring Milestones</name>
+            <url>http://192.168.70.81:8081/repository/maven-public/</url>
+        </mirror>-->
+        <!-- 阿里云仓库 -->
+        <mirror>
+            <id>alimaven</id>
+            <mirrorOf>central</mirrorOf>
+            <name>aliyun maven</name>
+            <url>https://maven.aliyun.com/nexus/content/repositories/central/</url>
+        </mirror>
+        <!-- 中央仓库1 -->
+        <mirror>
+            <id>repo1</id>
+            <mirrorOf>central</mirrorOf>
+            <name>Human Readable Name for this Mirror.</name>
+            <url>https://repo1.maven.org/maven2/</url>
+        </mirror>
+        <!-- 中央仓库2 -->
+        <mirror>
+            <id>repo2</id>
+            <mirrorOf>central</mirrorOf>
+            <name>Human Readable Name for this Mirror.</name>
+            <url>https://repo2.maven.org/maven2/</url>
+        </mirror>
+    </mirrors>
+    <profiles>
+        <profile>
+            <id>boundlessgeo</id>
+            <repositories>
+                <repository>
+                    <id>boundlessgeo</id>
+                    <url>https://repo.boundlessgeo.com/main/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                        <updatePolicy>always</updatePolicy>
+                    </snapshots>
+                </repository>
+            </repositories>
+        </profile>
+        <profile>
+            <id>aliyun</id>
+            <repositories>
+                <repository>
+                    <id>aliyun</id>
+                    <url>https://maven.aliyun.com/nexus/content/groups/public/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                        <updatePolicy>always</updatePolicy>
+                    </snapshots>
+                </repository>
+            </repositories>
+        </profile>
+        <profile>
+            <id>maven-central</id>
+            <repositories>
+                <repository>
+                    <id>maven-central</id>
+                    <url>https://central.maven.org/maven2/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                        <updatePolicy>always</updatePolicy>
+                    </snapshots>
+                </repository>
+            </repositories>
+        </profile>
+
+
+   <profile> 
+		<!--profile 的 id-->
+		<id>dev</id> 
+		
+		<repositories> 
+			<repository> 
+				<!--仓库 id，repositories 可以配置多个仓库，保证 id 不重复-->
+				<id>nexus-local</id> 
+				<!--仓库地址，即 nexus 仓库组的地址-->
+				<url>http://192.168.70.81:8081/repository/maven-public/</url> 
+				
+				<!--是否下载 releases 构件-->
+				<releases> 
+					<enabled>true</enabled> 
+				</releases> 
+				
+				<!--是否下载 snapshots 构件-->
+				<snapshots> 
+					<enabled>true</enabled> 
+				</snapshots> 
+			</repository> 
+		</repositories> 
+		
+		<pluginRepositories> 
+			<!-- 插件仓库，maven 的运行依赖插件，也需要从私服下载插件 -->
+			<pluginRepository> 
+				<!-- 插件仓库的 id 不允许重复，如果重复后边配置会覆盖前边 -->
+				<id>nexus-local</id> 
+				<name>Public Repositories</name> 
+				<url>http://192.168.70.81:8081/repository/maven-public/</url> 
+			</pluginRepository> 
+		</pluginRepositories> 
+	</profile>
+
+
+
+    </profiles>
+    <activeProfiles>
+        <activeProfile>boundlessgeo</activeProfile>
+        <activeProfile>aliyun</activeProfile>
+        <activeProfile>maven-central</activeProfile>
+<activeProfile>dev</activeProfile>
+    </activeProfiles>
+
+    <!-- 账号管理  -->
+    <servers>
+        <!-- docker镜像账号管理  -->
+        <server>
+            <id>registry-1.docker.io</id>
+            <username>hadron404</username>
+            <password>zz20121221...</password>
+        </server>
+    </servers>
+</settings>
