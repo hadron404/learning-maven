@@ -11,6 +11,14 @@ JARs were checked into CVS.
 We wanted a standard way to build the projects, a clear definition of what the project consisted of, an easy way to publish project information, and a way to share JARs across several projects{fn-what-is-maven}.
 ``
 
+What Maven can do?
+
+* modularize management
+* dependencies management
+* build
+* package
+* deploy
+
 === Installation
 
 === Commands
