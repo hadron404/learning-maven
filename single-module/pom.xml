@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.example</groupId>
+	<artifactId>single-module</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<name>single-module</name>
+	<packaging>jar</packaging> <!--1-->
+
+	<properties><!--2-->
+		<maven.complier.release>17</maven.complier.release>
+		<maven.complier.source>17</maven.complier.source>
+		<!-- Following project.-properties are reserved for Maven in will become elements in a future POM definition. -->
+		<!-- Don't start your own properties with project. -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
+
+</project>
