@@ -1,0 +1,40 @@
+:fn-maven-pom-properties: footnote:[https://maven.apache.org/pom.html#Properties[Maven Properties]]
+
+== Project Structure
+[source,text]
+----
+│   pom.xml
+│   README.adoc
+│
+└───src
+├───main
+│   ├───java
+│   │   └───org
+│   │       └───example
+│   │               Main.java
+│   │
+│   └───resources
+└───test
+└───java
+----
+
+
+== POM Explanation
+[source,xml]
+----
+
+include::{docdir}/pom.xml[lines=1..]
+
+----
+
+<1> `packaging` 打包方式，默认是 *jar*，可选 *war*、*zip*、*pom*
+<2> `properties` 属性，是值占位符，可通过使用符号（_${}_）在 POM 中的任意位置使用{fn-maven-pom-properties}
+
+
+
+== Reference
+
+* https://www.cnblogs.com/cuiqq/p/11023886.html[Maven properties 标签的使用]
+* https://maven.apache.org/plugins/maven-compiler-plugin/examples/set-compiler-source-and-target.html[Compile Using -source and -target javac Options]
+* https://maven.apache.org/plugins/maven-compiler-plugin/examples/set-compiler-release.html[Compile Using the --release javac Option(JDK 9+)]
+* https://maven.apache.org/plugins/maven-compiler-plugin/examples/compile-using-different-jdk.html[Compile Using Different JDK]
