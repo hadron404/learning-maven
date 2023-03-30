@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="local-dependency-sample" type="Application" factoryName="Application">
+  <configuration default="false" name="application" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="org.example.Main" />
     <module name="local-dependency-sample" />
     <extension name="coverage">
