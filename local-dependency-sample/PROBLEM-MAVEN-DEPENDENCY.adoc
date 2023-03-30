@@ -1,0 +1,157 @@
+:fn-maven-repositories: footnote:[https://maven.apache.org/guides/introduction/introduction-to-repositories.html[Introduction to Repositories]]
+
+== 案例背景
+
+案例中有两个 maven project，`single-module` 和 `local-dependency-sample`
+
+* single-module 仅仅是一个单模块的 maven 项目，依赖 JDK 8，提供一个公共的函数式接口，提供打印服务。
+* local-dependency-sample 也是一个单模块的 maven 项目，但它与 single-module 的区别是，它不仅依赖 JDK，而且依赖了 single-module。实现一个打印接口，完成 HTML 打印功能。
+
+=== 项目组织结构
+
+==== 文件树
+
+single-module
+
+local-dependency-sample
+
+== Run and Build
+
+在 Terminal 中运行以下命令
+
+[source,bash]
+----
+
+mvn clean compile package -f pom.xml
+
+----
+
+或在 IDEA - `Run Configuration` 运行以下脚本
+
+[source,xml]
+----
+
+include::{docdir}/.run/package-local-dependency-sample.run.xml[lines=1..]
+
+----
+
+如果不做任何其他事情，直接运行以下命令，Maven 会产生 Build Failed Error，输出日志如下：
+
+[source,log]
+----
+[ERROR] Failed to execute goal on project local-dependency-sample: Could not resolve dependencies for project org.example:local-dependency-sample:jar:0.0.1-SNAPSHOT: Failed to collect dependencies at org.example:single-module:jar:0.0.1-SNAPSHOT: Failed to read artifact descriptor for org.example:single-module:jar:0.0.1-SNAPSHOT: Could not transfer artifact org.example:single-module:pom:0.0.1-SNAPSHOT from/to maven-central (https://central.maven.org/maven2/): transfer failed for https://central.maven.org/maven2/org/example/single-module/0.0.1-SNAPSHOT/single-module-0.0.1-SNAPSHOT.pom: Unknown host central.maven.org -> [Help 1]
+[ERROR]
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR]
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] https://cwiki.apache.org/confluence/display/MAVEN/DependencyResolutionException
+
+
+----
+
+=== Cause analysis
+
+*核心是模块的依赖问题。编译及打包时在本地仓库、远程仓库均没有找到相关的 jar。*
+
+==== Solution
+
+==== The Way Of Using `scope` and `systemPath`
+
+[source,xml]
+----
+		<dependency>
+			<groupId>org.example</groupId>
+			<artifactId>single-module</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>system</scope> <!--1-->
+			<systemPath>${project.basedir}/../single-module/target/single-module-0.0.1-SNAPSHOT.jar</systemPath><!--2-->
+		</dependency>
+----
+
+<1> `scope` 指定 system 值，
+<2> `systemPath` 指定该 jar 包的本地路径
+
+[NOTE]
+这个方法有一个前提，就是必须得有一个完整 jar。通常适用于外部 jar，也可以如本案例一样，解决本地 maven 工程存在的依赖问题。
+
+==== The Way of Using Maven Repository
+
+这个方式是使用 Maven Repositories（仓库）的概念。
+
+[quote]
+A repository in Maven holds build artifacts and dependencies of varying types. +
+There are exactly two types of repositories: local and remote: +
+the local repository is a directory on the computer where Maven runs. It caches remote downloads and contains temporary build artifacts that you have not yet released. +
+remote repositories refer to any other type of repository, accessed by a variety of protocols such as file:// and https://. These repositories might be a truly remote repository set up by a third party to provide their artifacts for downloading (for example, repo.maven.apache.org). Other "remote" repositories may be internal repositories set up on a file or HTTP server within your company, used to share private artifacts between development teams and for releases. +
+Local and remote repositories are structured the same way so that scripts can run on either side, or they can be synced for offline use. The layout of the repositories is completely transparent to the Maven user, however.{fn-maven-repositories}
+
+Maven Repositories 可以存储所有的工程 jar 文件， library jar 文件、插件或任何其他的工程指定的文件。Maven Repositories 有三种类型：
+
+* central
+* local
+* remote
+
+通过以上介绍，如何处理刚才的问题呢，很简单，就是将依赖的项目放到仓库中。同样有三种方法
+
+. 部署到 central repositories
+. 部署到 local repositories
+. 部署到 remote repositories
+
+下面演示以下如何部署到 local repositories 中，其他可以参考 https://maven.apache.org/guides/introduction/introduction-to-repositories.html[Maven Documentation]。
+
+在 Terminal 中运行以下命令就可以将 maven 项目安装到 local repositories 中：
+
+[source,bash]
+----
+
+mvn clean compile package install -f pom.xml
+
+----
+
+或在 IDEA - `Run Configuration` 运行以下脚本
+
+[source,xml]
+----
+
+include::{docdir}/../single-module/.run/install-single-module.run.xml[lines=1..]
+
+----
+
+成功运行，你将看到如下的输出日志：
+
+[source,log]
+
+----
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ single-module ---
+[INFO] Installing D:\personal-project\learning-maven\single-module\target\single-module-0.0.1-SNAPSHOT.jar to C:\Users\home\.m2\repository\org\example\single-module\0.0.1-SNAPSHOT\single-module-0.0.1-SNAPSHOT.jar
+[INFO] Installing D:\personal-project\learning-maven\single-module\pom.xml to C:\Users\home\.m2\repository\org\example\single-module\0.0.1-SNAPSHOT\single-module-0.0.1-SNAPSHOT.pom
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.874 s
+[INFO] Finished at: 2023-03-30T15:40:17+08:00
+[INFO] ------------------------------------------------------------------------
+----
+
+成功之后，再去 local-dependency-sample 项目中运行构建脚本，即可完成构建了。
+
+==== The Way Of Using Plugins
+
+参考这篇 https://www.cnblogs.com/EasonJim/p/6854647.html[Maven 实现多个项目关联自动化构建 - maven-invoker-plugin 插件的使用] 文章，目前我暂未在本地成功运行，可能与我本地未装 maven 有关系，我使用的是 IDEA 自带的 maven。
+
+[NOTE]
+这个方法主要适用于被依赖项目在有任何变化时，相关依赖项目的构建过程都应当启动。
+
+
+
+== 参考资料
+
+* https://maven.apache.org/repositories/index.html[Maven Repositories]
+* https://www.dba.cn/book/maven/MAVENZhongWenShouCe/APACHEMAVENCangKu.html[Maven 仓库]
+* https://blog.csdn.net/bbj12345678/article/details/122842719[Maven 私服]
+* https://www.cnblogs.com/strugglion/p/12513956.html[Maven 添加本地 jar 包依赖及打包方法]
+* https://www.dba.cn/book/maven/MAVENZhongWenShouCe/APACHEMAVENGouJianZiDongHua.html[Apache Maven 构建自动化]
+* https://ayayui.gitbooks.io/tutorialspoint-maven/content/book/maven_build_automation.html[Maven build automation]
+* https://www.tutorialspoint.com/maven/maven_build_automation.htm[Maven build automation | tutorialspoint]
+* https://maven.apache.org/plugins/[Maven plugins]

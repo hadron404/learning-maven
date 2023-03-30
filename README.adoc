@@ -21,6 +21,17 @@ What Maven can do?
 
 === Installation
 
+==== Installation for local
+==== Using IDEA
+==== Using IDEA with Docker
+
+A growth idea
+
+. install idea and not use idea default maven
+. install docker and deploy maven in docker
+. idea use maven in docker
+. you get a very clearly computer
+
 === Commands
 
 === Structure
@@ -36,6 +47,8 @@ What Maven can do?
 === How to manage project's dependencies
 
 === How to build
+
+
 
 
 

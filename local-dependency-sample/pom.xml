@@ -21,32 +21,10 @@
 			<groupId>org.example</groupId>
 			<artifactId>single-module</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+<!--			依赖本地 jar，打包方式一-->
+<!--			<scope>system</scope>-->
+<!--			<systemPath>${project.basedir}/../single-module/target/single-module-0.0.1-SNAPSHOT.jar</systemPath>-->
 		</dependency>
 	</dependencies>
-
-
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-invoker-plugin</artifactId>
-				<version>1.6</version>
-				<configuration>
-					<debug>true</debug>
-					<pomIncludes>
-						<pomInclude>app-web-ui/pom.xml</pomInclude>
-						<pomInclude>app-desktop-ui/pom.xml</pomInclude>
-					</pomIncludes>
-				</configuration>
-				<executions>
-					<execution>
-						<id>build</id>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 
 </project>
