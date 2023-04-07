@@ -1,0 +1,21 @@
+[source,java]
+----
+include::{docdir}/src/main/java/org/example/ContainerizationApplication.java[lines=2..]
+
+----
+
+<1> 声明一个 SpringBootApplication 应用
+<2> 应用启动入口
+<3> 声明一个 RestController，用于编写 RESTFul 风格的 Web 请求控制器
+<4> 提供一个应用容器化后的测试接口
+
+
+== 版本与依赖
+
+[source,xml]
+----
+include::{docdir}/pom.xml[tag=dependencies-parent]
+include::{docdir}/pom.xml[tag=dependencies]
+----
+
+
